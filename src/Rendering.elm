@@ -333,7 +333,7 @@ toSvgWithBoxes vb bounds boxes rendering =
       , y "0"
       , width (String.fromInt w)
       , height (String.fromInt h) 
-      , Svg.Attributes.style "background-color:lightgrey" ]
+      , Svg.Attributes.style "background-color:white" ]
       svgElements
 
 toSvg : ViewBox -> (Int, Int) -> Rendering -> Svg msg 
