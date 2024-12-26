@@ -8,9 +8,22 @@ import Picture exposing (..)
 import Mirror exposing (..)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
+import Html.Attributes
+
+type alias ViewBox =
+  { x : Int 
+  , y : Int 
+  , width : Int 
+  , height : Int }
 
 toString : Float -> String 
 toString = String.fromFloat
+
+f2s : Float -> String 
+f2s = String.fromFloat
+
+i2s : Int -> String 
+i2s = String.fromInt
 
 getStrokeWidthFromStyle : Maybe StrokeStyle -> Float
 getStrokeWidthFromStyle style = 
@@ -290,8 +303,8 @@ createAxes w h =
   in 
     [ xAxis, yAxis ] ++ createXAxis w h ++ createYAxis 0 h
 
-toSvgWithBoxes : (Int, Int) -> List Box -> Rendering -> Svg msg 
-toSvgWithBoxes bounds boxes rendering = 
+toSvgWithBoxes : ViewBox -> (Int, Int) -> List Box -> Rendering -> Svg msg 
+toSvgWithBoxes vb bounds boxes rendering = 
   let
     (w, h) = bounds
     viewBoxValue = ["0", "0", String.fromInt w, String.fromInt h] |> String.join " "
@@ -310,15 +323,19 @@ toSvgWithBoxes bounds boxes rendering =
       case boxes of 
       [] -> things
       _ -> ([defs] ++ things ++ boxShapes ++ boxArrows ++ axes)
+    viewBoxStr = [ i2s vb.x, i2s vb.y, i2s vb.width, i2s vb.height ] |> String.join " "
   in
     svg
       [ version "1.1"
+      , Html.Attributes.attribute "xmlns" "http://www.w3.org/2000/svg"
+      , viewBox viewBoxStr
       , x "0"
       , y "0"
       , width (String.fromInt w)
-      , height (String.fromInt h) ]
+      , height (String.fromInt h) 
+      , Svg.Attributes.style "background-color:lightgrey" ]
       svgElements
 
-toSvg : (Int, Int) -> Rendering -> Svg msg 
-toSvg bounds rendering = 
-  toSvgWithBoxes bounds [] rendering 
+toSvg : ViewBox -> (Int, Int) -> Rendering -> Svg msg 
+toSvg vb bounds rendering = 
+  toSvgWithBoxes vb bounds [] rendering 

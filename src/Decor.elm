@@ -1,4 +1,4 @@
-module Decor exposing (render)
+module Decor exposing (render, decorate)
 
 import Box exposing (Box)
 import Picture exposing (Rendering)
@@ -27,8 +27,11 @@ decorate svg =
 render : List Box -> Rendering -> Html msg 
 render boxes rendering = 
   let 
-    bounds = (500, 500)
+    w = 750 
+    h = 200
+    bounds = (w, h)
+    vb = { x = 50, y = 0, width = w, height = h }
   in 
     rendering 
-    |> toSvgWithBoxes bounds boxes
+    |> toSvgWithBoxes vb bounds boxes
     |> decorate  
