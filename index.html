@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>EscherFishSquareLimitMain</title>
+  <title>EscherFishCycleMain</title>
   <style>body { padding: 0; margin: 0; }</style>
 </head>
 
@@ -4374,6 +4374,7 @@ var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 	}
 };
 var $author$project$Lens$Blackish = {$: 'Blackish'};
+var $author$project$Lens$Greyish = {$: 'Greyish'};
 var $author$project$Style$B = {$: 'B'};
 var $elm$core$Basics$sqrt = _Basics_sqrt;
 var $author$project$Vector$length = function (_v0) {
@@ -4540,8 +4541,19 @@ var $author$project$Fitting$getEyeLiner = F2(
 	});
 var $author$project$Fitting$getPathStyle = F3(
 	function (name, sw, hue) {
-		var stroke = $author$project$Fitting$isOuterEye(name) ? $elm$core$Maybe$Just(
-			A2($author$project$Fitting$getEyeLiner, sw, hue)) : $elm$core$Maybe$Nothing;
+		var stroke = function () {
+			if ($author$project$Fitting$isOuterEye(name)) {
+				return $elm$core$Maybe$Just(
+					A2($author$project$Fitting$getEyeLiner, sw, hue));
+			} else {
+				if (hue.$ === 'Whiteish') {
+					return $elm$core$Maybe$Just(
+						A2($author$project$Fitting$getEyeLiner, sw, hue));
+				} else {
+					return $elm$core$Maybe$Nothing;
+				}
+			}
+		}();
 		var fill = $elm$core$Maybe$Just(
 			{
 				fillColor: A2($author$project$Fitting$getColor, name, hue)
@@ -4978,9 +4990,6 @@ var $author$project$Fish$fishShapes = A2(
 					$elm$core$List$cons,
 					_Utils_Tuple2('eye-inner', $author$project$Fish$innerRightEyePath),
 					$author$project$Fish$fishyLines)))));
-var $author$project$Picture$blank = function (_v0) {
-	return _List_Nil;
-};
 var $author$project$Box$moveVertically = F2(
 	function (f, _v0) {
 		var a = _v0.a;
@@ -5109,52 +5118,6 @@ var $elm$core$Basics$composeR = F3(
 		return g(
 			f(x));
 	});
-var $author$project$Vector$neg = function (_v0) {
-	var x = _v0.x;
-	var y = _v0.y;
-	return {x: -x, y: -y};
-};
-var $author$project$Box$turnBox = function (_v0) {
-	var a = _v0.a;
-	var b = _v0.b;
-	var c = _v0.c;
-	return {
-		a: A2($author$project$Vector$add, a, b),
-		b: c,
-		c: $author$project$Vector$neg(b)
-	};
-};
-var $author$project$Lens$turnLens = function (_v0) {
-	var box = _v0.a;
-	var hue = _v0.b;
-	return _Utils_Tuple2(
-		$author$project$Box$turnBox(box),
-		hue);
-};
-var $author$project$Picture$turn = function (p) {
-	return A2($elm$core$Basics$composeR, $author$project$Lens$turnLens, p);
-};
-var $author$project$Picture$corner = F5(
-	function (ut, side1, side2, n, fish) {
-		var u = ut(fish);
-		var fn = function (x) {
-			var _v0 = (x === 1) ? _Utils_Tuple3($author$project$Picture$blank, $author$project$Picture$blank, $author$project$Picture$blank) : _Utils_Tuple3(
-				fn(x - 1),
-				A2(side1, x - 1, fish),
-				A2(side2, x - 1, fish));
-			var c = _v0.a;
-			var ne = _v0.b;
-			var sw = _v0.c;
-			return A4(
-				$author$project$Picture$quartet,
-				c,
-				ne,
-				$author$project$Picture$turn(sw),
-				u);
-		};
-		return fn(n);
-	});
-var $author$project$Lens$Greyish = {$: 'Greyish'};
 var $author$project$Lens$Whiteish = {$: 'Whiteish'};
 var $author$project$Lens$rehueLens = function (_v0) {
 	var box = _v0.a;
@@ -5176,203 +5139,6 @@ var $author$project$Lens$rehueLens = function (_v0) {
 var $author$project$Picture$rehue = function (p) {
 	return A2($elm$core$Basics$composeR, $author$project$Lens$rehueLens, p);
 };
-var $author$project$Picture$side = F5(
-	function (tt, rehueSW, rehueSE, n, fish) {
-		var t = tt(fish);
-		var recur = function (c) {
-			var r = (c === 1) ? $author$project$Picture$blank : recur(c - 1);
-			return A4(
-				$author$project$Picture$quartet,
-				r,
-				r,
-				rehueSW(
-					$author$project$Picture$turn(t)),
-				rehueSE(t));
-		};
-		return recur(n);
-	});
-var $author$project$Box$flipBox = function (_v0) {
-	var a = _v0.a;
-	var b = _v0.b;
-	var c = _v0.c;
-	return {
-		a: A2($author$project$Vector$add, a, b),
-		b: $author$project$Vector$neg(b),
-		c: c
-	};
-};
-var $author$project$Lens$flipLens = function (_v0) {
-	var box = _v0.a;
-	var hue = _v0.b;
-	return _Utils_Tuple2(
-		$author$project$Box$flipBox(box),
-		hue);
-};
-var $author$project$Picture$flip = function (p) {
-	return A2($elm$core$Basics$composeR, $author$project$Lens$flipLens, p);
-};
-var $author$project$Picture$over = F2(
-	function (p1, p2) {
-		return function (box) {
-			return _Utils_ap(
-				p1(box),
-				p2(box));
-		};
-	});
-var $author$project$Vector$sub = F2(
-	function (v1, v2) {
-		return A2(
-			$author$project$Vector$add,
-			v1,
-			$author$project$Vector$neg(v2));
-	});
-var $author$project$Box$tossBox = function (_v0) {
-	var a = _v0.a;
-	var b = _v0.b;
-	var c = _v0.c;
-	return {
-		a: A2(
-			$author$project$Vector$add,
-			a,
-			A2(
-				$author$project$Vector$scale,
-				0.5,
-				A2($author$project$Vector$add, b, c))),
-		b: A2(
-			$author$project$Vector$scale,
-			0.5,
-			A2($author$project$Vector$add, b, c)),
-		c: A2(
-			$author$project$Vector$scale,
-			0.5,
-			A2($author$project$Vector$sub, c, b))
-	};
-};
-var $author$project$Lens$tossLens = function (_v0) {
-	var box = _v0.a;
-	var hue = _v0.b;
-	return _Utils_Tuple2(
-		$author$project$Box$tossBox(box),
-		hue);
-};
-var $author$project$Picture$toss = function (p) {
-	return A2($elm$core$Basics$composeR, $author$project$Lens$tossLens, p);
-};
-var $author$project$Picture$ttile = F3(
-	function (rehueN, rehueE, fish) {
-		var fishN = $author$project$Picture$flip(
-			$author$project$Picture$toss(fish));
-		var fishE = $author$project$Picture$turn(
-			$author$project$Picture$turn(
-				$author$project$Picture$turn(fishN)));
-		return A2(
-			$author$project$Picture$over,
-			fish,
-			A2(
-				$author$project$Picture$over,
-				rehueN(fishN),
-				rehueE(fishE)));
-	});
-var $author$project$Picture$ttile2 = A2(
-	$author$project$Picture$ttile,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue),
-	$author$project$Picture$rehue);
-var $author$project$Picture$sideEW = A3(
-	$author$project$Picture$side,
-	$author$project$Picture$ttile2,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue),
-	$author$project$Picture$rehue);
-var $elm$core$Basics$identity = function (x) {
-	return x;
-};
-var $author$project$Picture$ttile1 = A2(
-	$author$project$Picture$ttile,
-	$author$project$Picture$rehue,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue));
-var $author$project$Picture$sideNS = A3($author$project$Picture$side, $author$project$Picture$ttile1, $elm$core$Basics$identity, $author$project$Picture$rehue);
-var $author$project$Picture$utile = F5(
-	function (rehueN, rehueW, rehueS, rehueE, fish) {
-		var fishN = $author$project$Picture$flip(
-			$author$project$Picture$toss(fish));
-		var fishW = $author$project$Picture$turn(fishN);
-		var fishS = $author$project$Picture$turn(fishW);
-		var fishE = $author$project$Picture$turn(fishS);
-		return A2(
-			$author$project$Picture$over,
-			A2(
-				$author$project$Picture$over,
-				rehueN(fishN),
-				rehueW(fishW)),
-			A2(
-				$author$project$Picture$over,
-				rehueS(fishS),
-				rehueE(fishE)));
-	});
-var $author$project$Picture$utile2 = A4(
-	$author$project$Picture$utile,
-	$elm$core$Basics$identity,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue),
-	$author$project$Picture$rehue,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue));
-var $author$project$Picture$cornerNESW = A3($author$project$Picture$corner, $author$project$Picture$utile2, $author$project$Picture$sideEW, $author$project$Picture$sideNS);
-var $author$project$Picture$utile3 = A4(
-	$author$project$Picture$utile,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue),
-	$elm$core$Basics$identity,
-	$author$project$Picture$rehue,
-	$elm$core$Basics$identity);
-var $author$project$Picture$cornerNWSE = A3($author$project$Picture$corner, $author$project$Picture$utile3, $author$project$Picture$sideNS, $author$project$Picture$sideEW);
-var $author$project$Picture$nonet = F9(
-	function (nw, nm, ne, mw, mm, me, sw, sm, se) {
-		var rw = F3(
-			function (w, m, e) {
-				return A4(
-					$author$project$Picture$besideRatio,
-					1,
-					2,
-					w,
-					A2($author$project$Picture$beside, m, e));
-			});
-		var cl = F3(
-			function (n, m, s) {
-				return A4(
-					$author$project$Picture$aboveRatio,
-					1,
-					2,
-					n,
-					A2($author$project$Picture$above, m, s));
-			});
-		return A3(
-			cl,
-			A3(rw, nw, nm, ne),
-			A3(rw, mw, mm, me),
-			A3(rw, sw, sm, se));
-	});
-var $author$project$Picture$utile1 = A4(
-	$author$project$Picture$utile,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue),
-	$elm$core$Basics$identity,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue),
-	$elm$core$Basics$identity);
-var $author$project$Picture$squareLimit = F2(
-	function (n, fish) {
-		var sideW = $author$project$Picture$turn(
-			A2($author$project$Picture$sideEW, n, fish));
-		var sideN = A2($author$project$Picture$sideNS, n, fish);
-		var sideS = $author$project$Picture$turn(
-			$author$project$Picture$turn(sideN));
-		var sideE = $author$project$Picture$turn(
-			$author$project$Picture$turn(sideW));
-		var cornerSW = $author$project$Picture$turn(
-			A2($author$project$Picture$cornerNESW, n, fish));
-		var cornerNW = A2($author$project$Picture$cornerNWSE, n, fish);
-		var cornerSE = $author$project$Picture$turn(
-			$author$project$Picture$turn(cornerNW));
-		var cornerNE = $author$project$Picture$turn(
-			$author$project$Picture$turn(cornerSW));
-		var center = $author$project$Picture$utile1(fish);
-		return A9($author$project$Picture$nonet, cornerNW, sideN, cornerNE, sideW, center, sideE, cornerSW, sideS, cornerSE);
-	});
 var $author$project$Rendering$acolor = '#b22327';
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
@@ -6047,26 +5813,169 @@ var $author$project$Rendering$toSvgWithBoxes = F4(
 				]),
 			svgElements);
 	});
-var $author$project$EscherFishSquareLimitMain$main = function () {
-	var w = 400;
-	var h = 400;
-	var vb = {height: h, width: w, x: 0, y: 0};
-	var fish = $author$project$Fitting$createPicture($author$project$Fish$fishShapes);
-	var boxes = _List_Nil;
-	var box = {
-		a: {x: 0.0, y: 0.0},
-		b: {x: 400.0, y: 0.0},
-		c: {x: 0.0, y: 400.0}
+var $author$project$Vector$neg = function (_v0) {
+	var x = _v0.x;
+	var y = _v0.y;
+	return {x: -x, y: -y};
+};
+var $author$project$Box$flipBox = function (_v0) {
+	var a = _v0.a;
+	var b = _v0.b;
+	var c = _v0.c;
+	return {
+		a: A2($author$project$Vector$add, a, b),
+		b: $author$project$Vector$neg(b),
+		c: c
 	};
-	var lens = _Utils_Tuple2(box, $author$project$Lens$Blackish);
-	var fishes = A3($author$project$Picture$squareLimit, 5, fish, lens);
+};
+var $author$project$Lens$flipLens = function (_v0) {
+	var box = _v0.a;
+	var hue = _v0.b;
+	return _Utils_Tuple2(
+		$author$project$Box$flipBox(box),
+		hue);
+};
+var $author$project$Picture$flip = function (p) {
+	return A2($elm$core$Basics$composeR, $author$project$Lens$flipLens, p);
+};
+var $author$project$Picture$over = F2(
+	function (p1, p2) {
+		return function (box) {
+			return _Utils_ap(
+				p1(box),
+				p2(box));
+		};
+	});
+var $author$project$Vector$sub = F2(
+	function (v1, v2) {
+		return A2(
+			$author$project$Vector$add,
+			v1,
+			$author$project$Vector$neg(v2));
+	});
+var $author$project$Box$tossBox = function (_v0) {
+	var a = _v0.a;
+	var b = _v0.b;
+	var c = _v0.c;
+	return {
+		a: A2(
+			$author$project$Vector$add,
+			a,
+			A2(
+				$author$project$Vector$scale,
+				0.5,
+				A2($author$project$Vector$add, b, c))),
+		b: A2(
+			$author$project$Vector$scale,
+			0.5,
+			A2($author$project$Vector$add, b, c)),
+		c: A2(
+			$author$project$Vector$scale,
+			0.5,
+			A2($author$project$Vector$sub, c, b))
+	};
+};
+var $author$project$Lens$tossLens = function (_v0) {
+	var box = _v0.a;
+	var hue = _v0.b;
+	return _Utils_Tuple2(
+		$author$project$Box$tossBox(box),
+		hue);
+};
+var $author$project$Picture$toss = function (p) {
+	return A2($elm$core$Basics$composeR, $author$project$Lens$tossLens, p);
+};
+var $author$project$Box$turnBox = function (_v0) {
+	var a = _v0.a;
+	var b = _v0.b;
+	var c = _v0.c;
+	return {
+		a: A2($author$project$Vector$add, a, b),
+		b: c,
+		c: $author$project$Vector$neg(b)
+	};
+};
+var $author$project$Lens$turnLens = function (_v0) {
+	var box = _v0.a;
+	var hue = _v0.b;
+	return _Utils_Tuple2(
+		$author$project$Box$turnBox(box),
+		hue);
+};
+var $author$project$Picture$turn = function (p) {
+	return A2($elm$core$Basics$composeR, $author$project$Lens$turnLens, p);
+};
+var $author$project$Picture$ttile = F3(
+	function (rehueN, rehueE, fish) {
+		var fishN = $author$project$Picture$flip(
+			$author$project$Picture$toss(fish));
+		var fishE = $author$project$Picture$turn(
+			$author$project$Picture$turn(
+				$author$project$Picture$turn(fishN)));
+		return A2(
+			$author$project$Picture$over,
+			fish,
+			A2(
+				$author$project$Picture$over,
+				rehueN(fishN),
+				rehueE(fishE)));
+	});
+var $author$project$Picture$ttile1 = A2(
+	$author$project$Picture$ttile,
+	$author$project$Picture$rehue,
+	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue));
+var $author$project$Picture$ttile2 = A2(
+	$author$project$Picture$ttile,
+	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue),
+	$author$project$Picture$rehue);
+var $author$project$EscherFishCycleMain$main = function () {
+	var w = 750;
+	var h = 250;
+	var vb = {height: h, width: w, x: 75, y: 0};
+	var fish = $author$project$Fitting$createPicture($author$project$Fish$fishShapes);
+	var ne = $author$project$Picture$rehue(
+		$author$project$Picture$ttile1(fish));
+	var nw = $author$project$Picture$turn(
+		$author$project$Picture$ttile2(fish));
+	var se = $author$project$Picture$turn(
+		$author$project$Picture$turn(
+			$author$project$Picture$turn(
+				$author$project$Picture$ttile2(fish))));
+	var sw = $author$project$Picture$rehue(
+		$author$project$Picture$turn(
+			$author$project$Picture$turn(
+				$author$project$Picture$ttile1(fish))));
+	var boxes = _List_Nil;
+	var box3 = {
+		a: {x: 600.0, y: 25.0},
+		b: {x: 200.0, y: 0.0},
+		c: {x: 0.0, y: 200.0}
+	};
+	var lens3 = _Utils_Tuple2(box3, $author$project$Lens$Blackish);
+	var box2 = {
+		a: {x: 350.0, y: 25.0},
+		b: {x: 200.0, y: 0.0},
+		c: {x: 0.0, y: 200.0}
+	};
+	var lens2 = _Utils_Tuple2(box2, $author$project$Lens$Greyish);
+	var box1 = {
+		a: {x: 100.0, y: 25.0},
+		b: {x: 200.0, y: 0.0},
+		c: {x: 0.0, y: 200.0}
+	};
+	var lens1 = _Utils_Tuple2(box1, $author$project$Lens$Blackish);
 	var bounds = _Utils_Tuple2(w, h);
 	return $author$project$Decor$decorate(
-		A4($author$project$Rendering$toSvgWithBoxes, vb, bounds, boxes, fishes));
+		A4(
+			$author$project$Rendering$toSvgWithBoxes,
+			vb,
+			bounds,
+			boxes,
+			A5($author$project$Picture$quartet, nw, ne, sw, se, lens1)));
 }();
-_Platform_export({'EscherFishSquareLimitMain':{'init':_VirtualDom_init($author$project$EscherFishSquareLimitMain$main)(0)(0)}});}(this));
+_Platform_export({'EscherFishCycleMain':{'init':_VirtualDom_init($author$project$EscherFishCycleMain$main)(0)(0)}});}(this));
 
-  var app = Elm.EscherFishSquareLimitMain.init({ node: document.getElementById("elm") });
+  var app = Elm.EscherFishCycleMain.init({ node: document.getElementById("elm") });
 }
 catch (e)
 {

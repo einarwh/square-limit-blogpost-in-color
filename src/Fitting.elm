@@ -63,7 +63,7 @@ getColor name hue =
       else if isInnerEye name then G 
       else W 
     Whiteish -> 
-      if name == "primary" then W 
+      if name == "primary" then W
       else if isOuterEye name then W  
       else if isInnerEye name then B 
       else B
@@ -84,7 +84,12 @@ getEyeLiner sw hue =
 getPathStyle : Name -> Float -> Hue -> Style
 getPathStyle name sw hue = 
   let 
-    stroke = if isOuterEye name then Just (getEyeLiner sw hue) else Nothing
+    -- stroke = if isOuterEye name then Just (getEyeLiner sw hue) else Nothing
+    stroke = if isOuterEye name then Just (getEyeLiner sw hue) 
+      else 
+        case hue of 
+          Whiteish -> Just (getEyeLiner sw hue)
+          _ -> Nothing
     fill = Just { fillColor = getColor name hue }
   in 
     { stroke = stroke, fill = fill }

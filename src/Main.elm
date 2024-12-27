@@ -16,7 +16,8 @@ main =
           , c = { x = 0.0, y = 400.0 } }
     lens = (box, Blackish)
     fish = createPicture fishShapes
+    t1 = ttile1 fish 
   in     
-    lens |> squareLimit 4 fish
+    lens |> quartet blank t1 blank blank
          |> render [ ]
  
