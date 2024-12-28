@@ -38,8 +38,8 @@ mapShape m shape =
             , point3 = m point3 
             , point4 = m point4 } 
 
-    Path (startVector, beziers) -> 
-      Path (m startVector, List.map (mapBezier m) beziers)
+    Path (startVector, segments) -> 
+      Path (m startVector, List.map (mapPathSegment m) segments)
 
     x -> x
 
@@ -48,6 +48,16 @@ mapBezier m bz =
   { controlPoint1 = m bz.controlPoint1
   , controlPoint2 = m bz.controlPoint2
   , endPoint = m bz.endPoint }
+
+mapLineTo : (Vector -> Vector) -> LineTo -> LineTo 
+mapLineTo m lt =
+  { point = m lt.point }
+
+mapPathSegment : (Vector -> Vector) -> PathSegment -> PathSegment 
+mapPathSegment m segment =
+  case segment of 
+    BezierSegment bz -> BezierSegment (mapBezier m bz)
+    LineSegment lt -> LineSegment (mapLineTo m lt)
 
 getColor : Name -> Hue -> StyleColor
 getColor name hue = 
@@ -130,9 +140,9 @@ mapNamedShape (box, hue) (name, shape) =
              , point2 = m point2 
              , point3 = m point3 
              , point4 = m point4 }, getDefaultStyle name hue sw)
-    Path (start, beziers) ->
+    Path (start, segments) ->
       let style = getPathStyle name sw hue
-      in (Path (m start, beziers |> List.map (mapBezier m)), style)
+      in (Path (m start, segments |> List.map (mapPathSegment m)), style)
     Line { lineStart, lineEnd } ->
       (Line { lineStart = m lineStart 
             , lineEnd = m lineEnd }, getDefaultStyle name hue sw)

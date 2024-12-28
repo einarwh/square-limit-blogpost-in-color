@@ -23,12 +23,19 @@ type alias BezierShape =
   , controlPoint2 : Vector
   , endPoint : Vector }
 
+type alias LineTo = 
+  { point : Vector }
+
+type PathSegment =
+  BezierSegment BezierShape 
+  | LineSegment LineTo
+
 type Shape = 
     Line LineShape 
   | Polygon PolygonShape
   | Polyline PolylineShape
   | Curve CurveShape
-  | Path (Vector, List BezierShape)
+  | Path (Vector, List PathSegment)
 
 type alias Name = String 
 

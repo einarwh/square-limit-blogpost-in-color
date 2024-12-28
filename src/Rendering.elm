@@ -109,8 +109,8 @@ toCurveElement style pt1 pt2 pt3 pt4 =
       , fill fillColor
       , d dval ] []
 
-toNextPoint : BezierShape -> String
-toNextPoint { controlPoint1, controlPoint2, endPoint } = 
+toNextPointBezier : BezierShape -> String
+toNextPointBezier { controlPoint1, controlPoint2, endPoint } = 
   let 
     toStr {x, y} = (toString x) ++ " " ++ (toString y)
     pt1s = toStr controlPoint1
@@ -118,8 +118,22 @@ toNextPoint { controlPoint1, controlPoint2, endPoint } =
     pt3s = toStr endPoint
   in 
     "C " ++ pt1s ++ ", " ++ pt2s ++ ", " ++ pt3s
+
+toNextPointLineTo : LineTo -> String 
+toNextPointLineTo { point } = 
+  let 
+    toStr {x, y} = (toString x) ++ " " ++ (toString y)
+    pts = toStr point
+  in 
+    "L " ++ pts
+
+toNextPoint : PathSegment -> String
+toNextPoint segment = 
+  case segment of 
+    BezierSegment bz -> toNextPointBezier bz 
+    LineSegment lt -> toNextPointLineTo lt
     
-toPathElement : Style -> Vector -> List BezierShape -> Svg msg
+toPathElement : Style -> Vector -> List PathSegment -> Svg msg
 toPathElement style start beziers = 
   let 
     toStr {x, y} = (toString x) ++ " " ++ (toString y)    
@@ -151,8 +165,8 @@ toSvgElement style shape =
     Polyline { pts } -> toPolylineElement style pts
     Curve { point1, point2, point3, point4 } ->
       toCurveElement style point1 point2 point3 point4 
-    Path (startVector, beziers) -> 
-      toPathElement style startVector beziers
+    Path (startVector, segments) -> 
+      toPathElement style startVector segments
     x -> text "nothing"
 
 toBoxPolylineElement : List Vector -> Svg msg

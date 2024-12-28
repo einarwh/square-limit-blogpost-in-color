@@ -15,11 +15,11 @@ createCurve v1 v2 v3 v4 =
 
 type alias XY = (Float, Float)
 
-createBezier : XY -> XY -> XY -> BezierShape
+createBezier : XY -> XY -> XY -> PathSegment
 createBezier (x1, y1) (x2, y2) (x3, y3) = 
   { controlPoint1 = { x = x1, y = y1 }
   , controlPoint2 = { x = x2, y = y2 } 
-  , endPoint =      { x = x3, y = y3 } }
+  , endPoint =      { x = x3, y = y3 } } |> BezierSegment
 
 fishyBeziers = [
     createBezier (0.110, 0.110) 

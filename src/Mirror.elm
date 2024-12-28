@@ -13,6 +13,16 @@ mirrorBezier mirror { controlPoint1, controlPoint2, endPoint } =
   , controlPoint2 = mirror controlPoint2 
   , endPoint = mirror endPoint }
 
+mirrorLineTo : (Vector -> Vector) -> LineTo -> LineTo 
+mirrorLineTo mirror { point } = 
+  { point = mirror point }
+
+mirrorPathSegment : (Vector -> Vector) -> PathSegment -> PathSegment 
+mirrorPathSegment mirror segment = 
+  case segment of 
+    BezierSegment bz -> BezierSegment (mirrorBezier mirror bz)
+    LineSegment lt -> LineSegment (mirrorLineTo mirror lt)
+
 mirrorShape : (Vector -> Vector) -> Shape -> Shape
 mirrorShape mirror shape = 
   case shape of  
@@ -27,5 +37,5 @@ mirrorShape mirror shape =
             , point2 = mirror point2 
             , point3 = mirror point3 
             , point4 = mirror point4 }
-    Path (start, beziers) -> 
-      Path (mirror start, List.map (mirrorBezier mirror) beziers)
+    Path (start, segments) -> 
+      Path (mirror start, List.map (mirrorPathSegment mirror) segments)

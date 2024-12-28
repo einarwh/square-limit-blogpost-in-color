@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>EscherFishCycleMain</title>
+  <title>EscherFishOutlineMain</title>
   <style>body { padding: 0; margin: 0; }</style>
 </head>
 
@@ -4374,7 +4374,6 @@ var $elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 	}
 };
 var $author$project$Lens$Blackish = {$: 'Blackish'};
-var $author$project$Lens$Greyish = {$: 'Greyish'};
 var $author$project$Style$B = {$: 'B'};
 var $elm$core$Basics$sqrt = _Basics_sqrt;
 var $author$project$Vector$length = function (_v0) {
@@ -4560,6 +4559,12 @@ var $author$project$Fitting$getPathStyle = F3(
 			});
 		return {fill: fill, stroke: stroke};
 	});
+var $author$project$Shape$BezierSegment = function (a) {
+	return {$: 'BezierSegment', a: a};
+};
+var $author$project$Shape$LineSegment = function (a) {
+	return {$: 'LineSegment', a: a};
+};
 var $author$project$Fitting$mapBezier = F2(
 	function (m, bz) {
 		return {
@@ -4567,6 +4572,24 @@ var $author$project$Fitting$mapBezier = F2(
 			controlPoint2: m(bz.controlPoint2),
 			endPoint: m(bz.endPoint)
 		};
+	});
+var $author$project$Fitting$mapLineTo = F2(
+	function (m, lt) {
+		return {
+			point: m(lt.point)
+		};
+	});
+var $author$project$Fitting$mapPathSegment = F2(
+	function (m, segment) {
+		if (segment.$ === 'BezierSegment') {
+			var bz = segment.a;
+			return $author$project$Shape$BezierSegment(
+				A2($author$project$Fitting$mapBezier, m, bz));
+		} else {
+			var lt = segment.a;
+			return $author$project$Shape$LineSegment(
+				A2($author$project$Fitting$mapLineTo, m, lt));
+		}
 	});
 var $author$project$Vector$add = F2(
 	function (v1, v2) {
@@ -4627,7 +4650,7 @@ var $author$project$Fitting$mapNamedShape = F2(
 			case 'Path':
 				var _v3 = shape.a;
 				var start = _v3.a;
-				var beziers = _v3.b;
+				var segments = _v3.b;
 				var style = A3($author$project$Fitting$getPathStyle, name, sw, hue);
 				return _Utils_Tuple2(
 					$author$project$Shape$Path(
@@ -4635,8 +4658,8 @@ var $author$project$Fitting$mapNamedShape = F2(
 							m(start),
 							A2(
 								$elm$core$List$map,
-								$author$project$Fitting$mapBezier(m),
-								beziers))),
+								$author$project$Fitting$mapPathSegment(m),
+								segments))),
 					style);
 			case 'Line':
 				var lineStart = shape.a.lineStart;
@@ -4705,107 +4728,7 @@ var $author$project$Decor$decorate = function (svg) {
 		_List_fromArray(
 			[body, footer]));
 };
-var $author$project$Fish$createCurve = F4(
-	function (v1, v2, v3, v4) {
-		return {point1: v1, point2: v2, point3: v3, point4: v4};
-	});
-var $author$project$Fish$createVector = F2(
-	function (x, y) {
-		return {x: x, y: y};
-	});
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
-var $author$project$Fish$fishySpineCurves = _List_fromArray(
-	[
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.840, 0.070),
-		A2($author$project$Fish$createVector, 0.350, 0.120),
-		A2($author$project$Fish$createVector, 0.140, 0.500),
-		A2($author$project$Fish$createVector, 0.025, 0.900)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, -0.015, 0.520),
-		A2($author$project$Fish$createVector, 0.040, 0.400),
-		A2($author$project$Fish$createVector, 0.120, 0.300),
-		A2($author$project$Fish$createVector, 0.210, 0.260)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.475, 0.270),
-		A2($author$project$Fish$createVector, 0.320, 0.350),
-		A2($author$project$Fish$createVector, 0.340, 0.600),
-		A2($author$project$Fish$createVector, 0.240, 0.770)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.377, 0.377),
-		A2($author$project$Fish$createVector, 0.410, 0.410),
-		A2($author$project$Fish$createVector, 0.460, 0.460),
-		A2($author$project$Fish$createVector, 0.495, 0.495)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.430, 0.165),
-		A2($author$project$Fish$createVector, 0.480, 0.175),
-		A2($author$project$Fish$createVector, 0.490, 0.220),
-		A2($author$project$Fish$createVector, 0.490, 0.230)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.452, 0.178),
-		A2($author$project$Fish$createVector, 0.510, 0.130),
-		A2($author$project$Fish$createVector, 0.540, 0.110),
-		A2($author$project$Fish$createVector, 0.600, 0.080)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.482, 0.215),
-		A2($author$project$Fish$createVector, 0.520, 0.200),
-		A2($author$project$Fish$createVector, 0.600, 0.160),
-		A2($author$project$Fish$createVector, 0.740, 0.150)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, -0.170, 0.237),
-		A2($author$project$Fish$createVector, -0.125, 0.355),
-		A2($author$project$Fish$createVector, -0.065, 0.405),
-		A2($author$project$Fish$createVector, 0.010, 0.480)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, -0.110, 0.175),
-		A2($author$project$Fish$createVector, -0.060, 0.250),
-		A2($author$project$Fish$createVector, -0.030, 0.300),
-		A2($author$project$Fish$createVector, 0.080, 0.365)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, -0.045, 0.115),
-		A2($author$project$Fish$createVector, 0.010, 0.180),
-		A2($author$project$Fish$createVector, 0.060, 0.230),
-		A2($author$project$Fish$createVector, 0.170, 0.280)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.270, 0.700),
-		A2($author$project$Fish$createVector, 0.340, 0.720),
-		A2($author$project$Fish$createVector, 0.426, 0.710),
-		A2($author$project$Fish$createVector, 0.474, 0.692)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.310, 0.570),
-		A2($author$project$Fish$createVector, 0.400, 0.622),
-		A2($author$project$Fish$createVector, 0.435, 0.618),
-		A2($author$project$Fish$createVector, 0.474, 0.615)),
-		A4(
-		$author$project$Fish$createCurve,
-		A2($author$project$Fish$createVector, 0.350, 0.435),
-		A2($author$project$Fish$createVector, 0.400, 0.505),
-		A2($author$project$Fish$createVector, 0.422, 0.520),
-		A2($author$project$Fish$createVector, 0.474, 0.538))
-	]);
-var $author$project$Fish$fishyLines = A2(
-	$elm$core$List$map,
-	function (c) {
-		return _Utils_Tuple2(
-			'secondary',
-			$author$project$Shape$Curve(c));
-	},
-	$author$project$Fish$fishySpineCurves);
-var $author$project$Fish$createBezier = F3(
+var $author$project$FishOutline$createBezier = F3(
 	function (_v0, _v1, _v2) {
 		var x1 = _v0.a;
 		var y1 = _v0.b;
@@ -4813,332 +4736,87 @@ var $author$project$Fish$createBezier = F3(
 		var y2 = _v1.b;
 		var x3 = _v2.a;
 		var y3 = _v2.b;
-		return {
-			controlPoint1: {x: x1, y: y1},
-			controlPoint2: {x: x2, y: y2},
-			endPoint: {x: x3, y: y3}
-		};
+		return $author$project$Shape$BezierSegment(
+			{
+				controlPoint1: {x: x1, y: y1},
+				controlPoint2: {x: x2, y: y2},
+				endPoint: {x: x3, y: y3}
+			});
 	});
-var $author$project$Fish$fishyBeziers = _List_fromArray(
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $author$project$FishOutline$fishyBeziers = _List_fromArray(
 	[
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.110, 0.110),
 		_Utils_Tuple2(0.175, 0.175),
 		_Utils_Tuple2(0.250, 0.250)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.372, 0.194),
 		_Utils_Tuple2(0.452, 0.132),
 		_Utils_Tuple2(0.564, 0.032)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.730, 0.056),
 		_Utils_Tuple2(0.834, 0.042),
 		_Utils_Tuple2(1.000, 0.000)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.896, 0.062),
 		_Utils_Tuple2(0.837, 0.107),
 		_Utils_Tuple2(0.766, 0.202)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.660, 0.208),
 		_Utils_Tuple2(0.589, 0.217),
 		_Utils_Tuple2(0.500, 0.250)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.500, 0.410),
 		_Utils_Tuple2(0.500, 0.460),
 		_Utils_Tuple2(0.500, 0.500)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.500, 0.575),
 		_Utils_Tuple2(0.500, 0.625),
 		_Utils_Tuple2(0.500, 0.750)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.411, 0.783),
 		_Utils_Tuple2(0.340, 0.792),
 		_Utils_Tuple2(0.234, 0.798)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(0.163, 0.893),
 		_Utils_Tuple2(0.104, 0.938),
 		_Utils_Tuple2(0.000, 1.000)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(-0.042, 0.834),
 		_Utils_Tuple2(-0.056, 0.730),
 		_Utils_Tuple2(-0.032, 0.564)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(-0.132, 0.452),
 		_Utils_Tuple2(-0.194, 0.372),
 		_Utils_Tuple2(-0.250, 0.250)),
 		A3(
-		$author$project$Fish$createBezier,
+		$author$project$FishOutline$createBezier,
 		_Utils_Tuple2(-0.150, 0.150),
 		_Utils_Tuple2(-0.050, 0.050),
 		_Utils_Tuple2(0.000, 0.000))
 	]);
-var $author$project$Fish$fishyPath = $author$project$Shape$Path(
+var $author$project$FishOutline$fishyPath = $author$project$Shape$Path(
 	_Utils_Tuple2(
 		{x: 0.000, y: 0.000},
-		$author$project$Fish$fishyBeziers));
-var $author$project$Fish$fishyInnerLeftEyeBeziers = _List_fromArray(
-	[
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.038, 0.708),
-		_Utils_Tuple2(0.053, 0.684),
-		_Utils_Tuple2(0.057, 0.674)),
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.035, 0.652),
-		_Utils_Tuple2(0.010, 0.622),
-		_Utils_Tuple2(0.008, 0.618)),
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.005, 0.685),
-		_Utils_Tuple2(0.010, 0.700),
-		_Utils_Tuple2(0.018, 0.720))
-	]);
-var $author$project$Fish$innerLeftEyePath = $author$project$Shape$Path(
-	_Utils_Tuple2(
-		{x: 0.018, y: 0.720},
-		$author$project$Fish$fishyInnerLeftEyeBeziers));
-var $author$project$Fish$fishyInnerRightEyeBeziers = _List_fromArray(
-	[
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.150, 0.805),
-		_Utils_Tuple2(0.174, 0.783),
-		_Utils_Tuple2(0.185, 0.774)),
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.154, 0.756),
-		_Utils_Tuple2(0.139, 0.740),
-		_Utils_Tuple2(0.132, 0.736)),
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.126, 0.760),
-		_Utils_Tuple2(0.122, 0.795),
-		_Utils_Tuple2(0.128, 0.810))
-	]);
-var $author$project$Fish$innerRightEyePath = $author$project$Shape$Path(
-	_Utils_Tuple2(
-		{x: 0.128, y: 0.810},
-		$author$project$Fish$fishyInnerRightEyeBeziers));
-var $author$project$Fish$fishyLeftEyeBeziers = _List_fromArray(
-	[
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.040, 0.772),
-		_Utils_Tuple2(0.068, 0.696),
-		_Utils_Tuple2(0.074, 0.685)),
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.045, 0.660),
-		_Utils_Tuple2(0.010, 0.617),
-		_Utils_Tuple2(-0.008, 0.592)),
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(-0.017, 0.685),
-		_Utils_Tuple2(-0.012, 0.770),
-		_Utils_Tuple2(0.004, 0.800))
-	]);
-var $author$project$Fish$leftEyePath = $author$project$Shape$Path(
-	_Utils_Tuple2(
-		{x: 0.004, y: 0.800},
-		$author$project$Fish$fishyLeftEyeBeziers));
-var $author$project$Fish$fishyRightEyeBeziers = _List_fromArray(
-	[
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.160, 0.840),
-		_Utils_Tuple2(0.200, 0.790),
-		_Utils_Tuple2(0.205, 0.782)),
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.165, 0.760),
-		_Utils_Tuple2(0.140, 0.740),
-		_Utils_Tuple2(0.115, 0.715)),
-		A3(
-		$author$project$Fish$createBezier,
-		_Utils_Tuple2(0.095, 0.775),
-		_Utils_Tuple2(0.090, 0.830),
-		_Utils_Tuple2(0.095, 0.870))
-	]);
-var $author$project$Fish$rightEyePath = $author$project$Shape$Path(
-	_Utils_Tuple2(
-		{x: 0.095, y: 0.870},
-		$author$project$Fish$fishyRightEyeBeziers));
-var $author$project$Fish$fishShapes = A2(
+		$author$project$FishOutline$fishyBeziers));
+var $author$project$FishOutline$fishOutlineShapes = A2(
 	$elm$core$List$cons,
-	_Utils_Tuple2('primary', $author$project$Fish$fishyPath),
-	A2(
-		$elm$core$List$cons,
-		_Utils_Tuple2('eye-outer', $author$project$Fish$leftEyePath),
-		A2(
-			$elm$core$List$cons,
-			_Utils_Tuple2('eye-outer', $author$project$Fish$rightEyePath),
-			A2(
-				$elm$core$List$cons,
-				_Utils_Tuple2('eye-inner', $author$project$Fish$innerLeftEyePath),
-				A2(
-					$elm$core$List$cons,
-					_Utils_Tuple2('eye-inner', $author$project$Fish$innerRightEyePath),
-					$author$project$Fish$fishyLines)))));
-var $author$project$Box$moveVertically = F2(
-	function (f, _v0) {
-		var a = _v0.a;
-		var b = _v0.b;
-		var c = _v0.c;
-		return {
-			a: A2(
-				$author$project$Vector$add,
-				a,
-				A2($author$project$Vector$scale, f, c)),
-			b: b,
-			c: c
-		};
-	});
-var $author$project$Box$scaleVertically = F2(
-	function (f, _v0) {
-		var a = _v0.a;
-		var b = _v0.b;
-		var c = _v0.c;
-		return {
-			a: a,
-			b: b,
-			c: A2($author$project$Vector$scale, f, c)
-		};
-	});
-var $author$project$Box$splitVertically = F2(
-	function (f, box) {
-		var top = A2(
-			$author$project$Box$scaleVertically,
-			f,
-			A2($author$project$Box$moveVertically, 1 - f, box));
-		var bot = A2($author$project$Box$scaleVertically, 1 - f, box);
-		return _Utils_Tuple2(top, bot);
-	});
-var $author$project$Lens$splitLensVertically = F2(
-	function (f, _v0) {
-		var box = _v0.a;
-		var hue = _v0.b;
-		var _v1 = A2($author$project$Box$splitVertically, f, box);
-		var box1 = _v1.a;
-		var box2 = _v1.b;
-		return _Utils_Tuple2(
-			_Utils_Tuple2(box1, hue),
-			_Utils_Tuple2(box2, hue));
-	});
-var $author$project$Picture$aboveRatio = F4(
-	function (m, n, p1, p2) {
-		return function (lens) {
-			var f = m / (m + n);
-			var _v0 = A2($author$project$Lens$splitLensVertically, f, lens);
-			var l1 = _v0.a;
-			var l2 = _v0.b;
-			return _Utils_ap(
-				p1(l1),
-				p2(l2));
-		};
-	});
-var $author$project$Picture$above = A2($author$project$Picture$aboveRatio, 1, 1);
-var $author$project$Box$moveHorizontally = F2(
-	function (f, _v0) {
-		var a = _v0.a;
-		var b = _v0.b;
-		var c = _v0.c;
-		return {
-			a: A2(
-				$author$project$Vector$add,
-				a,
-				A2($author$project$Vector$scale, f, b)),
-			b: b,
-			c: c
-		};
-	});
-var $author$project$Box$scaleHorizontally = F2(
-	function (f, _v0) {
-		var a = _v0.a;
-		var b = _v0.b;
-		var c = _v0.c;
-		return {
-			a: a,
-			b: A2($author$project$Vector$scale, f, b),
-			c: c
-		};
-	});
-var $author$project$Box$splitHorizontally = F2(
-	function (f, box) {
-		var right = A2(
-			$author$project$Box$scaleHorizontally,
-			1 - f,
-			A2($author$project$Box$moveHorizontally, f, box));
-		var left = A2($author$project$Box$scaleHorizontally, f, box);
-		return _Utils_Tuple2(left, right);
-	});
-var $author$project$Lens$splitLensHorizontally = F2(
-	function (f, _v0) {
-		var box = _v0.a;
-		var hue = _v0.b;
-		var _v1 = A2($author$project$Box$splitHorizontally, f, box);
-		var box1 = _v1.a;
-		var box2 = _v1.b;
-		return _Utils_Tuple2(
-			_Utils_Tuple2(box1, hue),
-			_Utils_Tuple2(box2, hue));
-	});
-var $author$project$Picture$besideRatio = F4(
-	function (m, n, p1, p2) {
-		return function (lens) {
-			var f = m / (m + n);
-			var _v0 = A2($author$project$Lens$splitLensHorizontally, f, lens);
-			var l1 = _v0.a;
-			var l2 = _v0.b;
-			return _Utils_ap(
-				p1(l1),
-				p2(l2));
-		};
-	});
-var $author$project$Picture$beside = A2($author$project$Picture$besideRatio, 1, 1);
-var $author$project$Picture$quartet = F4(
-	function (nw, ne, sw, se) {
-		return A2(
-			$author$project$Picture$above,
-			A2($author$project$Picture$beside, nw, ne),
-			A2($author$project$Picture$beside, sw, se));
-	});
-var $elm$core$Basics$composeR = F3(
-	function (f, g, x) {
-		return g(
-			f(x));
-	});
-var $author$project$Lens$Whiteish = {$: 'Whiteish'};
-var $author$project$Lens$rehueLens = function (_v0) {
-	var box = _v0.a;
-	var hue = _v0.b;
-	var change = function (h) {
-		switch (h.$) {
-			case 'Whiteish':
-				return $author$project$Lens$Blackish;
-			case 'Greyish':
-				return $author$project$Lens$Whiteish;
-			default:
-				return $author$project$Lens$Greyish;
-		}
-	};
-	return _Utils_Tuple2(
-		box,
-		change(hue));
-};
-var $author$project$Picture$rehue = function (p) {
-	return A2($elm$core$Basics$composeR, $author$project$Lens$rehueLens, p);
-};
+	_Utils_Tuple2('primary', $author$project$FishOutline$fishyPath),
+	_List_Nil);
 var $author$project$Rendering$acolor = '#b22327';
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
@@ -5340,6 +5018,25 @@ var $author$project$Mirror$mirrorBezier = F2(
 			endPoint: mirror(endPoint)
 		};
 	});
+var $author$project$Mirror$mirrorLineTo = F2(
+	function (mirror, _v0) {
+		var point = _v0.point;
+		return {
+			point: mirror(point)
+		};
+	});
+var $author$project$Mirror$mirrorPathSegment = F2(
+	function (mirror, segment) {
+		if (segment.$ === 'BezierSegment') {
+			var bz = segment.a;
+			return $author$project$Shape$BezierSegment(
+				A2($author$project$Mirror$mirrorBezier, mirror, bz));
+		} else {
+			var lt = segment.a;
+			return $author$project$Shape$LineSegment(
+				A2($author$project$Mirror$mirrorLineTo, mirror, lt));
+		}
+	});
 var $author$project$Mirror$mirrorShape = F2(
 	function (mirror, shape) {
 		switch (shape.$) {
@@ -5378,14 +5075,14 @@ var $author$project$Mirror$mirrorShape = F2(
 			default:
 				var _v1 = shape.a;
 				var start = _v1.a;
-				var beziers = _v1.b;
+				var segments = _v1.b;
 				return $author$project$Shape$Path(
 					_Utils_Tuple2(
 						mirror(start),
 						A2(
 							$elm$core$List$map,
-							$author$project$Mirror$mirrorBezier(mirror),
-							beziers)));
+							$author$project$Mirror$mirrorPathSegment(mirror),
+							segments)));
 		}
 	});
 var $author$project$Mirror$mirrorVector = F2(
@@ -5577,7 +5274,7 @@ var $author$project$Rendering$toCurveElement = F5(
 				]),
 			_List_Nil);
 	});
-var $author$project$Rendering$toNextPoint = function (_v0) {
+var $author$project$Rendering$toNextPointBezier = function (_v0) {
 	var controlPoint1 = _v0.controlPoint1;
 	var controlPoint2 = _v0.controlPoint2;
 	var endPoint = _v0.endPoint;
@@ -5590,6 +5287,25 @@ var $author$project$Rendering$toNextPoint = function (_v0) {
 	var pt2s = toStr(controlPoint2);
 	var pt1s = toStr(controlPoint1);
 	return 'C ' + (pt1s + (', ' + (pt2s + (', ' + pt3s))));
+};
+var $author$project$Rendering$toNextPointLineTo = function (_v0) {
+	var point = _v0.point;
+	var toStr = function (_v1) {
+		var x = _v1.x;
+		var y = _v1.y;
+		return $author$project$Rendering$toString(x) + (' ' + $author$project$Rendering$toString(y));
+	};
+	var pts = toStr(point);
+	return 'L ' + pts;
+};
+var $author$project$Rendering$toNextPoint = function (segment) {
+	if (segment.$ === 'BezierSegment') {
+		var bz = segment.a;
+		return $author$project$Rendering$toNextPointBezier(bz);
+	} else {
+		var lt = segment.a;
+		return $author$project$Rendering$toNextPointLineTo(lt);
+	}
 };
 var $author$project$Rendering$toPathElement = F3(
 	function (style, start, beziers) {
@@ -5713,8 +5429,8 @@ var $author$project$Rendering$toSvgElement = F2(
 			case 'Path':
 				var _v1 = shape.a;
 				var startVector = _v1.a;
-				var beziers = _v1.b;
-				return A3($author$project$Rendering$toPathElement, style, startVector, beziers);
+				var segments = _v1.b;
+				return A3($author$project$Rendering$toPathElement, style, startVector, segments);
 			default:
 				var x = shape;
 				return $elm$svg$Svg$text('nothing');
@@ -5813,153 +5529,14 @@ var $author$project$Rendering$toSvgWithBoxes = F4(
 				]),
 			svgElements);
 	});
-var $author$project$Vector$neg = function (_v0) {
-	var x = _v0.x;
-	var y = _v0.y;
-	return {x: -x, y: -y};
-};
-var $author$project$Box$flipBox = function (_v0) {
-	var a = _v0.a;
-	var b = _v0.b;
-	var c = _v0.c;
-	return {
-		a: A2($author$project$Vector$add, a, b),
-		b: $author$project$Vector$neg(b),
-		c: c
-	};
-};
-var $author$project$Lens$flipLens = function (_v0) {
-	var box = _v0.a;
-	var hue = _v0.b;
-	return _Utils_Tuple2(
-		$author$project$Box$flipBox(box),
-		hue);
-};
-var $author$project$Picture$flip = function (p) {
-	return A2($elm$core$Basics$composeR, $author$project$Lens$flipLens, p);
-};
-var $author$project$Picture$over = F2(
-	function (p1, p2) {
-		return function (box) {
-			return _Utils_ap(
-				p1(box),
-				p2(box));
-		};
-	});
-var $author$project$Vector$sub = F2(
-	function (v1, v2) {
-		return A2(
-			$author$project$Vector$add,
-			v1,
-			$author$project$Vector$neg(v2));
-	});
-var $author$project$Box$tossBox = function (_v0) {
-	var a = _v0.a;
-	var b = _v0.b;
-	var c = _v0.c;
-	return {
-		a: A2(
-			$author$project$Vector$add,
-			a,
-			A2(
-				$author$project$Vector$scale,
-				0.5,
-				A2($author$project$Vector$add, b, c))),
-		b: A2(
-			$author$project$Vector$scale,
-			0.5,
-			A2($author$project$Vector$add, b, c)),
-		c: A2(
-			$author$project$Vector$scale,
-			0.5,
-			A2($author$project$Vector$sub, c, b))
-	};
-};
-var $author$project$Lens$tossLens = function (_v0) {
-	var box = _v0.a;
-	var hue = _v0.b;
-	return _Utils_Tuple2(
-		$author$project$Box$tossBox(box),
-		hue);
-};
-var $author$project$Picture$toss = function (p) {
-	return A2($elm$core$Basics$composeR, $author$project$Lens$tossLens, p);
-};
-var $author$project$Box$turnBox = function (_v0) {
-	var a = _v0.a;
-	var b = _v0.b;
-	var c = _v0.c;
-	return {
-		a: A2($author$project$Vector$add, a, b),
-		b: c,
-		c: $author$project$Vector$neg(b)
-	};
-};
-var $author$project$Lens$turnLens = function (_v0) {
-	var box = _v0.a;
-	var hue = _v0.b;
-	return _Utils_Tuple2(
-		$author$project$Box$turnBox(box),
-		hue);
-};
-var $author$project$Picture$turn = function (p) {
-	return A2($elm$core$Basics$composeR, $author$project$Lens$turnLens, p);
-};
-var $author$project$Picture$ttile = F3(
-	function (rehueN, rehueE, fish) {
-		var fishN = $author$project$Picture$flip(
-			$author$project$Picture$toss(fish));
-		var fishE = $author$project$Picture$turn(
-			$author$project$Picture$turn(
-				$author$project$Picture$turn(fishN)));
-		return A2(
-			$author$project$Picture$over,
-			fish,
-			A2(
-				$author$project$Picture$over,
-				rehueN(fishN),
-				rehueE(fishE)));
-	});
-var $author$project$Picture$ttile1 = A2(
-	$author$project$Picture$ttile,
-	$author$project$Picture$rehue,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue));
-var $author$project$Picture$ttile2 = A2(
-	$author$project$Picture$ttile,
-	A2($elm$core$Basics$composeR, $author$project$Picture$rehue, $author$project$Picture$rehue),
-	$author$project$Picture$rehue);
-var $author$project$EscherFishCycleMain$main = function () {
-	var w = 750;
+var $author$project$EscherFishOutlineMain$main = function () {
+	var w = 250;
 	var h = 250;
-	var vb = {height: h, width: w, x: 75, y: 0};
-	var fish = $author$project$Fitting$createPicture($author$project$Fish$fishShapes);
-	var ne = $author$project$Picture$rehue(
-		$author$project$Picture$ttile1(fish));
-	var nw = $author$project$Picture$turn(
-		$author$project$Picture$ttile2(fish));
-	var se = $author$project$Picture$turn(
-		$author$project$Picture$turn(
-			$author$project$Picture$turn(
-				$author$project$Picture$ttile2(fish))));
-	var sw = $author$project$Picture$rehue(
-		$author$project$Picture$turn(
-			$author$project$Picture$turn(
-				$author$project$Picture$ttile1(fish))));
+	var vb = {height: h, width: w, x: 0, y: 0};
+	var fish = $author$project$Fitting$createPicture($author$project$FishOutline$fishOutlineShapes);
 	var boxes = _List_Nil;
-	var box3 = {
-		a: {x: 600.0, y: 25.0},
-		b: {x: 200.0, y: 0.0},
-		c: {x: 0.0, y: 200.0}
-	};
-	var lens3 = _Utils_Tuple2(box3, $author$project$Lens$Blackish);
-	var box2 = {
-		a: {x: 350.0, y: 25.0},
-		b: {x: 200.0, y: 0.0},
-		c: {x: 0.0, y: 200.0}
-	};
-	var lens2 = _Utils_Tuple2(box2, $author$project$Lens$Greyish);
 	var box1 = {
-		a: {x: 100.0, y: 25.0},
+		a: {x: 50.0, y: 25.0},
 		b: {x: 200.0, y: 0.0},
 		c: {x: 0.0, y: 200.0}
 	};
@@ -5971,11 +5548,11 @@ var $author$project$EscherFishCycleMain$main = function () {
 			vb,
 			bounds,
 			boxes,
-			A5($author$project$Picture$quartet, nw, ne, sw, se, lens1)));
+			fish(lens1)));
 }();
-_Platform_export({'EscherFishCycleMain':{'init':_VirtualDom_init($author$project$EscherFishCycleMain$main)(0)(0)}});}(this));
+_Platform_export({'EscherFishOutlineMain':{'init':_VirtualDom_init($author$project$EscherFishOutlineMain$main)(0)(0)}});}(this));
 
-  var app = Elm.EscherFishCycleMain.init({ node: document.getElementById("elm") });
+  var app = Elm.EscherFishOutlineMain.init({ node: document.getElementById("elm") });
 }
 catch (e)
 {
