@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>EscherFishOutlineMain</title>
+  <title>EscherLizardOutlineMain</title>
   <style>body { padding: 0; margin: 0; }</style>
 </head>
 
@@ -4728,95 +4728,141 @@ var $author$project$Decor$decorate = function (svg) {
 		_List_fromArray(
 			[body, footer]));
 };
-var $author$project$FishOutline$createBezier = F3(
-	function (_v0, _v1, _v2) {
-		var x1 = _v0.a;
-		var y1 = _v0.b;
-		var x2 = _v1.a;
-		var y2 = _v1.b;
-		var x3 = _v2.a;
-		var y3 = _v2.b;
+var $author$project$LizardOutline$curveto = F3(
+	function (cp1, cp2, ep) {
 		return $author$project$Shape$BezierSegment(
-			{
-				controlPoint1: {x: x1, y: y1},
-				controlPoint2: {x: x2, y: y2},
-				endPoint: {x: x3, y: y3}
-			});
+			{controlPoint1: cp1, controlPoint2: cp2, endPoint: ep});
 	});
+var $author$project$LizardOutline$lineto = function (p) {
+	return $author$project$Shape$LineSegment(
+		{point: p});
+};
 var $elm$core$Basics$negate = function (n) {
 	return -n;
 };
-var $author$project$FishOutline$fishyBeziers = _List_fromArray(
+var $author$project$LizardOutline$pt = F2(
+	function (x, y) {
+		return {x: x, y: y};
+	});
+var $author$project$LizardOutline$lizardBodySegments = _List_fromArray(
 	[
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.110, 0.110),
-		_Utils_Tuple2(0.175, 0.175),
-		_Utils_Tuple2(0.250, 0.250)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.020, 0.050),
+		A2($author$project$LizardOutline$pt, 0.030, 0.120),
+		A2($author$project$LizardOutline$pt, 0.025, 0.185)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.372, 0.194),
-		_Utils_Tuple2(0.452, 0.132),
-		_Utils_Tuple2(0.564, 0.032)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.080, 0.120),
+		A2($author$project$LizardOutline$pt, 0.200, 0.105),
+		A2($author$project$LizardOutline$pt, 0.310, 0.090)),
+		$author$project$LizardOutline$lineto(
+		A2($author$project$LizardOutline$pt, 0.310, -0.313)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.730, 0.056),
-		_Utils_Tuple2(0.834, 0.042),
-		_Utils_Tuple2(1.000, 0.000)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.450, -0.170),
+		A2($author$project$LizardOutline$pt, 0.500, -0.100),
+		A2($author$project$LizardOutline$pt, 0.630, 0.065)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.896, 0.062),
-		_Utils_Tuple2(0.837, 0.107),
-		_Utils_Tuple2(0.766, 0.202)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.700, 0.040),
+		A2($author$project$LizardOutline$pt, 0.780, 0.010),
+		A2($author$project$LizardOutline$pt, 0.850, 0.000)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.660, 0.208),
-		_Utils_Tuple2(0.589, 0.217),
-		_Utils_Tuple2(0.500, 0.250)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.700, -0.070),
+		A2($author$project$LizardOutline$pt, 0.563, -0.180),
+		A2($author$project$LizardOutline$pt, 0.563, -0.313)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.500, 0.410),
-		_Utils_Tuple2(0.500, 0.460),
-		_Utils_Tuple2(0.500, 0.500)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.680, -0.310),
+		A2($author$project$LizardOutline$pt, 0.780, -0.410),
+		A2($author$project$LizardOutline$pt, 0.813, -0.375)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.500, 0.575),
-		_Utils_Tuple2(0.500, 0.625),
-		_Utils_Tuple2(0.500, 0.750)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.830, -0.350),
+		A2($author$project$LizardOutline$pt, 0.780, -0.300),
+		A2($author$project$LizardOutline$pt, 0.750, -0.250)),
+		$author$project$LizardOutline$lineto(
+		A2($author$project$LizardOutline$pt, 1.000, 0.000)),
+		$author$project$LizardOutline$lineto(
+		A2($author$project$LizardOutline$pt, 0.750, 0.250)),
+		$author$project$LizardOutline$lineto(
+		A2($author$project$LizardOutline$pt, 0.870, 0.500)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.411, 0.783),
-		_Utils_Tuple2(0.340, 0.792),
-		_Utils_Tuple2(0.234, 0.798)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.950, 0.675),
+		A2($author$project$LizardOutline$pt, 1.060, 0.795),
+		A2($author$project$LizardOutline$pt, 1.270, 0.850)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(0.163, 0.893),
-		_Utils_Tuple2(0.104, 0.938),
-		_Utils_Tuple2(0.000, 1.000)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 1.200, 0.940),
+		A2($author$project$LizardOutline$pt, 1.100, 0.980),
+		A2($author$project$LizardOutline$pt, 1.000, 1.000)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(-0.042, 0.834),
-		_Utils_Tuple2(-0.056, 0.730),
-		_Utils_Tuple2(-0.032, 0.564)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.980, 0.900),
+		A2($author$project$LizardOutline$pt, 0.940, 0.800),
+		A2($author$project$LizardOutline$pt, 0.850, 0.730)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(-0.132, 0.452),
-		_Utils_Tuple2(-0.194, 0.372),
-		_Utils_Tuple2(-0.250, 0.250)),
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.795, 0.940),
+		A2($author$project$LizardOutline$pt, 0.675, 1.050),
+		A2($author$project$LizardOutline$pt, 0.500, 1.130)),
+		$author$project$LizardOutline$lineto(
+		A2($author$project$LizardOutline$pt, 0.250, 1.250)),
+		$author$project$LizardOutline$lineto(
+		A2($author$project$LizardOutline$pt, 0.000, 1.000)),
+		$author$project$LizardOutline$lineto(
+		A2($author$project$LizardOutline$pt, 0.250, 0.750)),
 		A3(
-		$author$project$FishOutline$createBezier,
-		_Utils_Tuple2(-0.150, 0.150),
-		_Utils_Tuple2(-0.050, 0.050),
-		_Utils_Tuple2(0.000, 0.000))
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.300, 0.780),
+		A2($author$project$LizardOutline$pt, 0.350, 0.830),
+		A2($author$project$LizardOutline$pt, 0.375, 0.813)),
+		A3(
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.410, 0.780),
+		A2($author$project$LizardOutline$pt, 0.310, 0.680),
+		A2($author$project$LizardOutline$pt, 0.313, 0.563)),
+		A3(
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.180, 0.563),
+		A2($author$project$LizardOutline$pt, 0.070, 0.700),
+		A2($author$project$LizardOutline$pt, 0.000, 0.850)),
+		A3(
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, -0.010, 0.780),
+		A2($author$project$LizardOutline$pt, -0.040, 0.700),
+		A2($author$project$LizardOutline$pt, -0.065, 0.630)),
+		A3(
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, 0.100, 0.500),
+		A2($author$project$LizardOutline$pt, 0.170, 0.450),
+		A2($author$project$LizardOutline$pt, 0.313, 0.310)),
+		$author$project$LizardOutline$lineto(
+		A2($author$project$LizardOutline$pt, -0.090, 0.310)),
+		A3(
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, -0.105, 0.200),
+		A2($author$project$LizardOutline$pt, -0.120, 0.080),
+		A2($author$project$LizardOutline$pt, -0.185, 0.025)),
+		A3(
+		$author$project$LizardOutline$curveto,
+		A2($author$project$LizardOutline$pt, -0.120, 0.030),
+		A2($author$project$LizardOutline$pt, -0.050, 0.020),
+		A2($author$project$LizardOutline$pt, 0.000, 0.000))
 	]);
-var $author$project$FishOutline$fishyPath = $author$project$Shape$Path(
-	_Utils_Tuple2(
-		{x: 0.000, y: 0.000},
-		$author$project$FishOutline$fishyBeziers));
-var $author$project$FishOutline$fishOutlineShapes = A2(
-	$elm$core$List$cons,
-	_Utils_Tuple2('primary', $author$project$FishOutline$fishyPath),
-	_List_Nil);
+var $author$project$LizardOutline$lizardBody = function () {
+	var start = A2($author$project$LizardOutline$pt, 0, 0);
+	var segments = $author$project$LizardOutline$lizardBodySegments;
+	return $author$project$Shape$Path(
+		_Utils_Tuple2(start, segments));
+}();
+var $author$project$LizardOutline$lizardOutlineShapes = _List_fromArray(
+	[
+		_Utils_Tuple2('primary', $author$project$LizardOutline$lizardBody)
+	]);
 var $author$project$Rendering$acolor = '#b22327';
 var $elm$virtual_dom$VirtualDom$attribute = F2(
 	function (key, value) {
@@ -5340,7 +5386,7 @@ var $author$project$Rendering$toPathElement = F3(
 				var stroke = _v1.a;
 				return $author$project$Rendering$getStrokePen(stroke);
 			} else {
-				return _Utils_Tuple2('none', strokew);
+				return _Utils_Tuple2('black', strokew);
 			}
 		}();
 		var strokeColor = _v0.a;
@@ -5525,20 +5571,20 @@ var $author$project$Rendering$toSvgWithBoxes = F4(
 					$elm$core$String$fromInt(w)),
 					$elm$svg$Svg$Attributes$height(
 					$elm$core$String$fromInt(h)),
-					$elm$svg$Svg$Attributes$style('background-color:white')
+					$elm$svg$Svg$Attributes$style('background-color:yellow')
 				]),
 			svgElements);
 	});
-var $author$project$EscherFishOutlineMain$main = function () {
+var $author$project$EscherLizardOutlineMain$main = function () {
 	var w = 250;
+	var p = $author$project$Fitting$createPicture($author$project$LizardOutline$lizardOutlineShapes);
 	var h = 250;
 	var vb = {height: h, width: w, x: 0, y: 0};
-	var fish = $author$project$Fitting$createPicture($author$project$FishOutline$fishOutlineShapes);
 	var boxes = _List_Nil;
 	var box1 = {
-		a: {x: 50.0, y: 25.0},
-		b: {x: 200.0, y: 0.0},
-		c: {x: 0.0, y: 200.0}
+		a: {x: 50.0, y: 59.0},
+		b: {x: 152.0, y: 0.0},
+		c: {x: 0.0, y: 152.0}
 	};
 	var lens1 = _Utils_Tuple2(box1, $author$project$Lens$Blackish);
 	var bounds = _Utils_Tuple2(w, h);
@@ -5548,11 +5594,11 @@ var $author$project$EscherFishOutlineMain$main = function () {
 			vb,
 			bounds,
 			boxes,
-			fish(lens1)));
+			p(lens1)));
 }();
-_Platform_export({'EscherFishOutlineMain':{'init':_VirtualDom_init($author$project$EscherFishOutlineMain$main)(0)(0)}});}(this));
+_Platform_export({'EscherLizardOutlineMain':{'init':_VirtualDom_init($author$project$EscherLizardOutlineMain$main)(0)(0)}});}(this));
 
-  var app = Elm.EscherFishOutlineMain.init({ node: document.getElementById("elm") });
+  var app = Elm.EscherLizardOutlineMain.init({ node: document.getElementById("elm") });
 }
 catch (e)
 {

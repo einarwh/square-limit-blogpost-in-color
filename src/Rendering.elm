@@ -145,7 +145,7 @@ toPathElement style start beziers =
     (strokeColor, sw) = 
       case style.stroke of 
         Just stroke -> getStrokePen stroke 
-        Nothing -> ("none", strokew)
+        Nothing -> ("black", strokew)
     fillColor = 
       case style.fill of 
         Just fill -> getFillBrush fill
@@ -347,7 +347,7 @@ toSvgWithBoxes vb bounds boxes rendering =
       , y "0"
       , width (String.fromInt w)
       , height (String.fromInt h) 
-      , Svg.Attributes.style "background-color:white" ]
+      , Svg.Attributes.style "background-color:yellow" ]
       svgElements
 
 toSvg : ViewBox -> (Int, Int) -> Rendering -> Svg msg 
