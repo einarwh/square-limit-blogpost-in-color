@@ -26,6 +26,10 @@ type alias BezierShape =
 type alias LineTo = 
   { point : Vector }
 
+type alias CircleShape = 
+  { center : Vector 
+  , radius : Float }
+
 type PathSegment =
   BezierSegment BezierShape 
   | LineSegment LineTo
@@ -36,6 +40,7 @@ type Shape =
   | Polyline PolylineShape
   | Curve CurveShape
   | Path (Vector, List PathSegment)
+  | Circle CircleShape
 
 type alias Name = String 
 

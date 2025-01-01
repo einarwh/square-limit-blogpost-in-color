@@ -39,3 +39,5 @@ mirrorShape mirror shape =
             , point4 = mirror point4 }
     Path (start, segments) -> 
       Path (mirror start, List.map (mirrorPathSegment mirror) segments)
+    Circle {center, radius} ->
+      Circle { center = mirror center, radius = radius }

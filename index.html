@@ -5050,6 +5050,9 @@ var $author$project$Rendering$createMarker = function (_v0) {
 var $elm$svg$Svg$defs = $elm$svg$Svg$trustedNode('defs');
 var $elm$svg$Svg$Attributes$height = _VirtualDom_attribute('height');
 var $author$project$Rendering$i2s = $elm$core$String$fromInt;
+var $author$project$Shape$Circle = function (a) {
+	return {$: 'Circle', a: a};
+};
 var $author$project$Shape$Polyline = function (a) {
 	return {$: 'Polyline', a: a};
 };
@@ -5118,7 +5121,7 @@ var $author$project$Mirror$mirrorShape = F2(
 						point3: mirror(point3),
 						point4: mirror(point4)
 					});
-			default:
+			case 'Path':
 				var _v1 = shape.a;
 				var start = _v1.a;
 				var segments = _v1.b;
@@ -5129,6 +5132,14 @@ var $author$project$Mirror$mirrorShape = F2(
 							$elm$core$List$map,
 							$author$project$Mirror$mirrorPathSegment(mirror),
 							segments)));
+			default:
+				var center = shape.a.center;
+				var radius = shape.a.radius;
+				return $author$project$Shape$Circle(
+					{
+						center: mirror(center),
+						radius: radius
+					});
 		}
 	});
 var $author$project$Mirror$mirrorVector = F2(
@@ -5245,6 +5256,9 @@ var $author$project$Rendering$toBoxShape = F2(
 		return pts;
 	});
 var $elm$svg$Svg$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$svg$Svg$circle = $elm$svg$Svg$trustedNode('circle');
+var $elm$svg$Svg$Attributes$cx = _VirtualDom_attribute('cx');
+var $elm$svg$Svg$Attributes$cy = _VirtualDom_attribute('cy');
 var $author$project$Rendering$toStyleColorString = function (color) {
 	switch (color.$) {
 		case 'B':
@@ -5273,6 +5287,47 @@ var $author$project$Rendering$getStrokeWidthFromStyle = function (style) {
 		return 2.0;
 	}
 };
+var $elm$svg$Svg$Attributes$r = _VirtualDom_attribute('r');
+var $author$project$Rendering$toCircleElement = F3(
+	function (style, center, radius) {
+		var strokew = $author$project$Rendering$getStrokeWidthFromStyle(style.stroke);
+		var fillColor = function () {
+			var _v2 = style.fill;
+			if (_v2.$ === 'Just') {
+				var fill = _v2.a;
+				return $author$project$Rendering$getFillBrush(fill);
+			} else {
+				return 'none';
+			}
+		}();
+		var _v0 = function () {
+			var _v1 = style.stroke;
+			if (_v1.$ === 'Just') {
+				var stroke = _v1.a;
+				return $author$project$Rendering$getStrokePen(stroke);
+			} else {
+				return _Utils_Tuple2('black', strokew);
+			}
+		}();
+		var strokeColor = _v0.a;
+		var sw = _v0.b;
+		return A2(
+			$elm$svg$Svg$circle,
+			_List_fromArray(
+				[
+					$elm$svg$Svg$Attributes$stroke(strokeColor),
+					$elm$svg$Svg$Attributes$strokeWidth(
+					$author$project$Rendering$toString(sw)),
+					$elm$svg$Svg$Attributes$fill(fillColor),
+					$elm$svg$Svg$Attributes$cx(
+					$author$project$Rendering$toString(center.x)),
+					$elm$svg$Svg$Attributes$cy(
+					$author$project$Rendering$toString(center.y)),
+					$elm$svg$Svg$Attributes$r(
+					$author$project$Rendering$toString(radius))
+				]),
+			_List_Nil);
+	});
 var $elm$svg$Svg$Attributes$strokeLinecap = _VirtualDom_attribute('stroke-linecap');
 var $author$project$Rendering$toCurveElement = F5(
 	function (style, pt1, pt2, pt3, pt4) {
@@ -5477,6 +5532,10 @@ var $author$project$Rendering$toSvgElement = F2(
 				var startVector = _v1.a;
 				var segments = _v1.b;
 				return A3($author$project$Rendering$toPathElement, style, startVector, segments);
+			case 'Circle':
+				var center = shape.a.center;
+				var radius = shape.a.radius;
+				return A3($author$project$Rendering$toCircleElement, style, center, radius);
 			default:
 				var x = shape;
 				return $elm$svg$Svg$text('nothing');

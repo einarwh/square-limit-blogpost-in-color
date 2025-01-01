@@ -132,7 +132,28 @@ toNextPoint segment =
   case segment of 
     BezierSegment bz -> toNextPointBezier bz 
     LineSegment lt -> toNextPointLineTo lt
-    
+
+toCircleElement : Style -> Vector -> Float -> Svg msg
+toCircleElement style center radius = 
+  let
+    strokew = getStrokeWidthFromStyle style.stroke  
+    (strokeColor, sw) = 
+      case style.stroke of 
+        Just stroke -> getStrokePen stroke 
+        Nothing -> ("black", strokew)
+    fillColor = 
+      case style.fill of 
+        Just fill -> getFillBrush fill
+        Nothing -> "none"
+  in
+    Svg.circle 
+      [ stroke strokeColor
+      , strokeWidth <| toString sw
+      , fill fillColor
+      , cx (toString center.x)
+      , cy (toString center.y)
+      , r (toString radius) ] []
+
 toPathElement : Style -> Vector -> List PathSegment -> Svg msg
 toPathElement style start beziers = 
   let 
@@ -167,6 +188,8 @@ toSvgElement style shape =
       toCurveElement style point1 point2 point3 point4 
     Path (startVector, segments) -> 
       toPathElement style startVector segments
+    Circle { center, radius } -> 
+      toCircleElement style center radius 
     x -> text "nothing"
 
 toBoxPolylineElement : List Vector -> Svg msg
