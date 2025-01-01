@@ -50,7 +50,7 @@ lizardBody =
     start = pt 0 0
     segments = lizardBodySegments
   in 
-    Path (start, segments)
+    Path (start, True, segments)
 
 lizardSpine = 
   let 
@@ -59,7 +59,7 @@ lizardSpine =
       , curveto (pt 0.740 1.000) (pt 0.645 0.480) (pt 0.350 -0.210) ]
     start = pt 0.090 1.000
   in 
-    Path (start, segments)
+    Path (start, False, segments)
 
 lowerEye = 
   Circle { center = (pt 0.270 0.880), radius = 1 }

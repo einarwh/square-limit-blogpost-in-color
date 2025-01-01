@@ -45,16 +45,7 @@ lizardBody =
     start = pt 0 0
     segments = lizardBodySegments
   in 
-    Path (start, segments)
-
-lizardSpine = 
-  let 
-    segments = 
-      [ lineto  (pt 0.270 1.000)
-      , curveto (pt 0.740 1.000) (pt 0.645 0.480) (pt 0.350 -0.210) ]
-    start = pt 0.090 1.000
-  in 
-    Path (start, segments)
+    Path (start, True, segments)
 
 lizardOutlineShapes = 
   [ 

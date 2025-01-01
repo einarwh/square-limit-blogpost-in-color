@@ -39,7 +39,7 @@ type Shape =
   | Polygon PolygonShape
   | Polyline PolylineShape
   | Curve CurveShape
-  | Path (Vector, List PathSegment)
+  | Path (Vector, Bool, List PathSegment)
   | Circle CircleShape
 
 type alias Name = String 

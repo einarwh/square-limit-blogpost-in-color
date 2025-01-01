@@ -59,7 +59,7 @@ fishyBeziers = [
                  (-0.050, 0.050)
                  (0.000, 0.000) ]
 
-fishyPath = Path ({ x = 0.000, y = 0.000}, fishyBeziers) 
+fishyPath = Path ({ x = 0.000, y = 0.000}, True, fishyBeziers) 
 
 fishyLeftEyeBeziers = [
     createBezier (0.040, 0.772)
@@ -74,7 +74,7 @@ fishyLeftEyeBeziers = [
                  (-0.012, 0.770)
                  (0.004, 0.800) ]
 
-leftEyePath = Path ({ x = 0.004, y = 0.800 }, fishyLeftEyeBeziers) 
+leftEyePath = Path ({ x = 0.004, y = 0.800 }, True, fishyLeftEyeBeziers) 
 
 fishyInnerLeftEyeBeziers = [
     createBezier (0.038, 0.708)
@@ -89,7 +89,7 @@ fishyInnerLeftEyeBeziers = [
                  (0.010, 0.700)
                  (0.018, 0.720) ]
 
-innerLeftEyePath = Path ({ x = 0.018, y = 0.720}, fishyInnerLeftEyeBeziers) 
+innerLeftEyePath = Path ({ x = 0.018, y = 0.720}, True, fishyInnerLeftEyeBeziers) 
 
 fishyRightEyeBeziers = [
     createBezier (0.160, 0.840)
@@ -104,7 +104,7 @@ fishyRightEyeBeziers = [
                  (0.090, 0.830)
                  (0.095, 0.870) ]
 
-rightEyePath = Path ({ x = 0.095, y = 0.870}, fishyRightEyeBeziers) 
+rightEyePath = Path ({ x = 0.095, y = 0.870}, True, fishyRightEyeBeziers) 
 
 fishyInnerRightEyeBeziers = [
     createBezier (0.150, 0.805)
@@ -119,7 +119,7 @@ fishyInnerRightEyeBeziers = [
                  (0.122, 0.795)
                  (0.128, 0.810) ]
 
-innerRightEyePath = Path ({ x = 0.128, y = 0.810 }, fishyInnerRightEyeBeziers) 
+innerRightEyePath = Path ({ x = 0.128, y = 0.810 }, True, fishyInnerRightEyeBeziers) 
 
 fishySpineCurves = [
   -- (* main spine *)

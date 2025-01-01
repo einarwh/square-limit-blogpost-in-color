@@ -25,6 +25,13 @@ getStyle box =
                   , strokeColor = B } 
   , fill = Nothing }
 
+getRadius : Float -> Box -> Float 
+getRadius r { b, c } = 
+  let 
+    s = max (length b) (length c) 
+  in
+    s / 200.0
+
 mapShape : (Vector -> Vector) -> Shape -> Shape 
 mapShape m shape = 
   case shape of  
@@ -38,8 +45,8 @@ mapShape m shape =
             , point3 = m point3 
             , point4 = m point4 } 
 
-    Path (startVector, segments) -> 
-      Path (m startVector, List.map (mapPathSegment m) segments)
+    Path (startVector, closed, segments) -> 
+      Path (m startVector, closed, List.map (mapPathSegment m) segments)
 
     x -> x
 
@@ -140,12 +147,15 @@ mapNamedShape (box, hue) (name, shape) =
              , point2 = m point2 
              , point3 = m point3 
              , point4 = m point4 }, getDefaultStyle name hue sw)
-    Path (start, segments) ->
+    Path (start, closed, segments) ->
       let style = getPathStyle name sw hue
-      in (Path (m start, segments |> List.map (mapPathSegment m)), style)
+      in (Path (m start, closed, segments |> List.map (mapPathSegment m)), style)
     Line { lineStart, lineEnd } ->
       (Line { lineStart = m lineStart 
             , lineEnd = m lineEnd }, getDefaultStyle name hue sw)
+    Circle { center, radius } -> 
+      (Circle { center = m center 
+              , radius = getRadius radius box }, getDefaultStyle name hue sw)
     _ ->
       let nv = { x = 0, y = 0 } 
       in 

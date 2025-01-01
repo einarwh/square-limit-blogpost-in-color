@@ -133,6 +133,28 @@ toNextPoint segment =
     BezierSegment bz -> toNextPointBezier bz 
     LineSegment lt -> toNextPointLineTo lt
 
+toLineElement : Style -> Vector -> Vector -> Svg msg 
+toLineElement style lineStart lineEnd = 
+  let
+    strokew = getStrokeWidthFromStyle style.stroke  
+    (strokeColor, sw) = 
+      case style.stroke of 
+        Just stroke -> getStrokePen stroke 
+        Nothing -> ("black", strokew)
+    fillColor = 
+      case style.fill of 
+        Just fill -> getFillBrush fill
+        Nothing -> "none"
+  in
+    Svg.line 
+      [ stroke strokeColor
+      , strokeWidth <| toString sw
+      , fill fillColor
+      , x1 (toString lineStart.x)
+      , y1 (toString lineStart.y)
+      , x2 (toString lineEnd.x)
+      , y2 (toString lineEnd.y) ] []
+
 toCircleElement : Style -> Vector -> Float -> Svg msg
 toCircleElement style center radius = 
   let
@@ -152,24 +174,25 @@ toCircleElement style center radius =
       , fill fillColor
       , cx (toString center.x)
       , cy (toString center.y)
-      , r (toString radius) ] []
+      , r (toString (radius * 10)) ] []
 
-toPathElement : Style -> Vector -> List PathSegment -> Svg msg
-toPathElement style start beziers = 
+toPathElement : Style -> Vector -> Bool -> List PathSegment -> Svg msg
+toPathElement style start closed beziers = 
   let 
     toStr {x, y} = (toString x) ++ " " ++ (toString y)    
     startStr = "M" ++ toStr start
     nextStrs = List.map toNextPoint beziers
-    strs = startStr :: nextStrs ++ [ "Z" ]
+    open = startStr :: nextStrs
+    strs = if closed then open ++ [ "Z" ] else open 
     dval = strs |> String.join " "
     strokew = getStrokeWidthFromStyle style.stroke  
     (strokeColor, sw) = 
       case style.stroke of 
         Just stroke -> getStrokePen stroke 
-        Nothing -> ("black", strokew)
+        Nothing -> if closed then ("black", strokew) else ("white", strokew) 
     fillColor = 
       case style.fill of 
-        Just fill -> getFillBrush fill
+        Just fill -> if closed then getFillBrush fill else "none"
         Nothing -> "none"
   in 
     Svg.path 
@@ -186,11 +209,12 @@ toSvgElement style shape =
     Polyline { pts } -> toPolylineElement style pts
     Curve { point1, point2, point3, point4 } ->
       toCurveElement style point1 point2 point3 point4 
-    Path (startVector, segments) -> 
-      toPathElement style startVector segments
+    Path (startVector, closed, segments) -> 
+      toPathElement style startVector closed segments
     Circle { center, radius } -> 
       toCircleElement style center radius 
-    x -> text "nothing"
+    Line { lineStart, lineEnd } -> 
+      toLineElement style lineStart lineEnd 
 
 toBoxPolylineElement : List Vector -> Svg msg
 toBoxPolylineElement pts = 
@@ -369,8 +393,8 @@ toSvgWithBoxes vb bounds boxes rendering =
       , x "0"
       , y "0"
       , width (String.fromInt w)
-      , height (String.fromInt h) 
-      , Svg.Attributes.style "background-color:yellow" ]
+      , height (String.fromInt h) ]
+      -- , Svg.Attributes.style "background-color:yellow" ]
       svgElements
 
 toSvg : ViewBox -> (Int, Int) -> Rendering -> Svg msg 
